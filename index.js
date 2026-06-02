@@ -35,9 +35,17 @@ const authenticatedUser = (username, password) => {
 
 const app = express();
 
-app.use(session({secret:"fingerpint"},resave=true,saveUninitialized=true));
+// This code sets up session management using the Express session middleware
+app.use(session({
+      secret: "fingerprint",
+      resave: false,
+      saveUninitialized: false,
+    }));
 
-app.use(express.json());
+    // Route handlers go here
+    app.get('/', (req, res) => {
+        res.send('Welcome to the Friends List App!');
+    });
 
 // Middleware to authenticate requests to "/friends" endpoint
 app.use("/friends", function auth(req, res, next) {
@@ -109,6 +117,6 @@ app.post("/register", (req, res) => {
 
 const PORT =5000;
 
-app.use("/friends", routes);
+app.use("/", routes);
 
-app.listen(PORT,()=>console.log("Server is running"));
+app.listen(PORT,()=>console.log("Server is running on port 5000"));
